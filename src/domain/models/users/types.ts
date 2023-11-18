@@ -1,4 +1,4 @@
-import { Replace } from '../../helpers/replace';
+import { Replace } from '@domain/helpers/replace';
 import { BaseProps } from '../base/types';
 import { Meal } from '../meals'
 

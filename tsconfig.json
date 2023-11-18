@@ -8,7 +8,13 @@
     "strict": true, /* Enable all strict type-checking options. */
     "paths": {
       "@domain/*": [
-        "./src/app/*"
+        "./src/domain/*"
+      ],
+      "@infra/*": [
+        "./src/infra/*"
+      ],
+      "@test/*": [
+        "./test/*"
       ]
     },
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
