@@ -1,6 +1,6 @@
 import { Replace } from '../../helpers/replace';
 import { BaseProps } from '../base/types';
-import { User } from '../users';
+import { User } from '../user';
 
 export type PrivateMeal = {
   name: string;

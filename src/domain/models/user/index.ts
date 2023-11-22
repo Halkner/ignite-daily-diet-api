@@ -1,5 +1,5 @@
 import { Base } from '../base';
-import { Meal } from '../meals';
+import { Meal } from '../meal';
 import { UserProps, PrivateUser } from './types';
 
 export class User extends Base {
@@ -10,9 +10,9 @@ export class User extends Base {
 
     this.props = {
       username: props.username,
-      password: props.password ?? null,
+      password: props.password,
       email: props.email,
-      sessionId: props.sessionId ?? null,
+      sessionId: props.sessionId,
 
       meals: props.meals,
     };
@@ -30,7 +30,7 @@ export class User extends Base {
     return this.props.password;
   }
 
-  public set password(password: string | null) {
+  public set password(password: string) {
     this.props.password = password;
   }
 

@@ -1,5 +1,5 @@
 import { Base } from '../base';
-import { User } from '../users';
+import { User } from '../user';
 import { MealProps, PrivateMeal } from './types';
 
 export class Meal extends Base {
