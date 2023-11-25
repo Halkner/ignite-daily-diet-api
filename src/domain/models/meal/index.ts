@@ -12,7 +12,7 @@ export class Meal extends Base {
       name: props.name,
       description: props.description,
       datetime: props.datetime,
-      isInDiet: props.isInDiet,
+      isDietMeal: props.isDietMeal,
       userId: props.userId,
 
       user: props.user,
@@ -43,12 +43,12 @@ export class Meal extends Base {
     this.props.datetime = datetime;
   }
 
-  public get isInDiet() {
-    return this.props.isInDiet;
+  public get isDietMeal() {
+    return this.props.isDietMeal;
   }
 
-  public set isInDiet(isInDiet: boolean) {
-    this.props.isInDiet = isInDiet;
+  public set isDietMeal(isDietMeal: boolean) {
+    this.props.isDietMeal = isDietMeal;
   }
 
   public get userId() {

@@ -8,7 +8,12 @@ export class CreateUserController {
     constructor(private createUser: CreateUser){}
 
     async handle(request: FastifyRequest<{Body: CreateUserBody}>, reply: FastifyReply){
-        const validatedData = createUserBodySchema.parse(request.body)
+        const {body} = request
+        const validatedData = createUserBodySchema.safeParse(request.body)
+
+        if(!validatedData.success){
+          reply.status(400).send(validatedData.error.issues.map(issue => issue.message))
+        }
 
         let sessionId = request.cookies.sessionId
 
@@ -21,11 +26,11 @@ export class CreateUserController {
         }
   
         try {
-          const { user } = await this.createUser.execute({...validatedData, sessionId})
+          const { user } = await this.createUser.execute({...body, sessionId})
           reply.status(201).send(user);
         } catch (error) {
           if (error instanceof UserAlreadyExists) {
-            reply.status(error.statusCode).send({ error: error.message });
+            reply.status(400).send({ error: error.message });
           } else {
             reply.status(500).send({ error: "Internal Server Error." });
           }

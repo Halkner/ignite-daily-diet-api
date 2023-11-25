@@ -6,7 +6,7 @@ export type PrivateMeal = {
   name: string;
   description: string;
   datetime: string;
-  isInDiet: boolean;
+  isDietMeal: boolean;
   userId: string;
 
   user: User;

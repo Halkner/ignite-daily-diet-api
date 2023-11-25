@@ -14,8 +14,16 @@ export class UsersRepository
     await knex('users').insert(raw)
   }
 
+  async findById(id: string): Promise<User | null> {
+    const user = await knex('users').where('id', id).first()
+
+    if (!user) return null;
+
+    return UserMapper.toDomain(user);
+  }
+
   async findByUsername(username: string): Promise<User | null> {
-    const user = await knex('users').where('username',username).first()
+    const user = await knex('users').where('username', username).first()
 
     if (!user) return null;
 

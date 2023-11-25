@@ -19,7 +19,7 @@ export async function up(knex: Knex): Promise<void> {
         table.text('name').notNullable()
         table.text('description').notNullable()
         table.timestamp('datetime').notNullable()
-        table.boolean('isInDiet').notNullable()
+        table.integer('isDietMeal').notNullable()
         table.uuid('userId').unsigned()
         
         table.foreign('userId').references('users.id')

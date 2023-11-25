@@ -13,14 +13,14 @@ declare module 'knex/types/tables' {
       sessionId: string
     },
     meals: {
-        id: string
-        createdAt: Date
-        updatedAt: Date
-        name: string
-        description: string
-        datetime: string
-        isInDiet: boolean
-        userId: string
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      name: string
+      description: string
+      datetime: string
+      isDietMeal: number
+      userId: string
     }
   }
 }

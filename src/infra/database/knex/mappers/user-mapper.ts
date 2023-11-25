@@ -1,7 +1,8 @@
 import { User } from '@domain/models/user';
+import { FromModelMeal, MealMapper } from './meal-mapper';
 
 
-export type MappedUser = {
+export type ToModelUser = {
     id: string,
     username: string,
     password: Buffer,
@@ -11,8 +12,20 @@ export type MappedUser = {
     updatedAt: Date,
 };
 
+export type FromModelUser = {
+  id: string,
+  username: string,
+  password: Buffer,
+  email: string,
+  sessionId: string,
+  createdAt: Date,
+  updatedAt: Date,
+
+  meals?: FromModelMeal[]
+};
+
 export class UserMapper {
-  static toModel(user: User): MappedUser {
+  static toModel(user: User): ToModelUser {
     return {
         id: user.id,
         username: user.username,
@@ -24,15 +37,17 @@ export class UserMapper {
     };
   }
 
-  static toDomain(raw: MappedUser): User {
+  static toDomain(model: FromModelUser): User {
     return new User({
-      id: raw.id,
-      username: raw.username,
-      password: raw.password.toString(),
-      email: raw.email,
-      sessionId: raw.sessionId,
-      createdAt: raw.createdAt,
-      updatedAt: raw.updatedAt,
+      id: model.id,
+      username: model.username,
+      password: model.password.toString(),
+      email: model.email,
+      sessionId: model.sessionId,
+      createdAt: model.createdAt,
+      updatedAt: model.updatedAt,
+
+      meals: model.meals && model.meals.map(MealMapper.toDomain)
     });
   }
 }
