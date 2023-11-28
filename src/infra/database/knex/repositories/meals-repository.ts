@@ -10,9 +10,15 @@ export class MealsRepository
 
   async create(meal: Meal): Promise<void> {
 
-      const raw = MealMapper.toModel(meal)
-      console.log(raw)
+    const raw = MealMapper.toModel(meal)
+    console.log(raw)
       
     await knex('meals').insert(raw)
+  }
+
+  async list(): Promise<Meal[]> {
+    const meals = await knex('meals').select('*')
+
+    return meals.map(MealMapper.toDomain)
   }
 }

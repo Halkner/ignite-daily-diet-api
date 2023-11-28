@@ -63,7 +63,7 @@ export class Meal extends Base {
     return this.props.user;
   }
 
-  public set user(user: User) {
+  public set user(user: User | undefined) {
     this.props.user = user;
   }
 }

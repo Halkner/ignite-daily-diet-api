@@ -18,12 +18,12 @@ export type FromModelMeal = {
     name: string,
     description: string,
     datetime: string,
-    isDietMeal: boolean,
+    isDietMeal: number,
     userId: string,
     createdAt: Date,
     updatedAt: Date,
 
-    user: FromModelUser
+    user?: FromModelUser
 };
 
 export class MealMapper {
@@ -33,7 +33,7 @@ export class MealMapper {
         name: meal.name,
         description: meal.description,
         datetime: meal.datetime,
-        isDietMeal: meal.isDietMeal ? 0 : 1,
+        isDietMeal: meal.isDietMeal ? 1 : 0, // 0 - false, 1 - true
         userId: meal.userId,
         createdAt: meal.createdAt,
         updatedAt: meal.updatedAt,

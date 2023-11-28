@@ -9,7 +9,7 @@ export type PrivateMeal = {
   isDietMeal: boolean;
   userId: string;
 
-  user: User;
+  user?: User;
 };
 
 export type MealProps = BaseProps & PrivateMeal

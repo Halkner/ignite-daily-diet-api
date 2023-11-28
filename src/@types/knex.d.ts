@@ -19,7 +19,7 @@ declare module 'knex/types/tables' {
       name: string
       description: string
       datetime: string
-      isDietMeal: number
+      isDietMeal: number // 0 - false, 1 - true
       userId: string
     }
   }
