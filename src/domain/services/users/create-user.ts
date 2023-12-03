@@ -2,7 +2,8 @@ import { User } from '@domain/models/user';
 import { CryptProvider } from '@domain/providers/crypt-provider';
 import { UsersRepositoryAbstract } from '@domain/repositories/users-repository';
 
-import { UserAlreadyExists } from './errors/user-already-exists';
+import { UserNameAlreadyExists } from './errors/user-name-already-exists';
+import { UserEmailAlreadyExists } from './errors/user-email-already-exists';
 
 type CreateUserRequest = {
   username: string;
@@ -25,11 +26,15 @@ export class CreateUser {
     const { username, password, email, sessionId } = props;
 
     console.log(username)
-    const userAlreadyExists = await this.usersRepository.findByUsername(
+    const userNameAlreadyExists = await this.usersRepository.findByUsername(
       username,
     );
 
-    if (userAlreadyExists) throw new UserAlreadyExists();
+    if (userNameAlreadyExists) throw new UserNameAlreadyExists();
+
+    const userEmailAlreadyExists = await this.usersRepository.findByEmail(email);
+
+    if (userEmailAlreadyExists) throw new UserEmailAlreadyExists();
 
     const hashedPassword = await this.cryptProvider.hash(password);
 

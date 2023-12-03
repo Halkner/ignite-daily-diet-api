@@ -16,8 +16,8 @@ export class MealsRepository
     await knex('meals').insert(raw)
   }
 
-  async list(): Promise<Meal[]> {
-    const meals = await knex('meals').select('*')
+  async findByUserId(userId: string): Promise<Meal[]> {
+    const meals = await knex('meals').select().where('userId', userId)
 
     return meals.map(MealMapper.toDomain)
   }

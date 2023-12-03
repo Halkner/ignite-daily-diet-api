@@ -2,7 +2,7 @@ import { CreateUser } from "@domain/services/users/create-user";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { CreateUserBody, createUserBodySchema } from "../../dtos/users/create-user-body";
 import { randomUUID } from "crypto";
-import { UserAlreadyExists } from "@domain/services/users/errors/user-already-exists";
+import { UserNameAlreadyExists } from "@domain/services/users/errors/user-name-already-exists";
 
 export class CreateUserController {
     constructor(private createUser: CreateUser){}
@@ -29,7 +29,7 @@ export class CreateUserController {
           const { user } = await this.createUser.execute({...body, sessionId})
           reply.status(201).send(user);
         } catch (error) {
-          if (error instanceof UserAlreadyExists) {
+          if (error instanceof UserNameAlreadyExists) {
             reply.status(400).send({ error: error.message });
           } else {
             reply.status(500).send({ error: "Internal Server Error." });

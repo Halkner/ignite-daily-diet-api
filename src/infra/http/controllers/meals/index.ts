@@ -1,6 +1,6 @@
-import { createMealService, listMealsService } from "@infra/services/meal-services";
+import { createMealService, getMealsByUserIdService } from "@infra/services/meal-services";
 import { CreateMealController } from "./create-meal.controller";
-import { ListMealsController } from "./list-meals.controller";
+import { GetMealsByUserIdController } from "./get-meals-by-user-id.controller";
 
 export const createMealController = new CreateMealController(createMealService)
-export const listMealsController = new ListMealsController(listMealsService)
+export const getMealsByUserIdController = new GetMealsByUserIdController(getMealsByUserIdService)

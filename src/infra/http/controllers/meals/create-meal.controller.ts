@@ -20,7 +20,7 @@ export class CreateMealController {
         console.log(body)
   
         try {
-          const { meal } = await this.createMeal.execute({...body})
+          const { meal } = await this.createMeal.execute({...body, sessionId})
           reply.status(201).send(meal);
         } catch (error) {
           if (error instanceof UserNotFound) {

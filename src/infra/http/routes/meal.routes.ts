@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { createMealController, listMealsController } from "../controllers/meals";
+import { createMealController, getMealsByUserIdController } from "../controllers/meals";
 import { CreateMealBody } from "../dtos/meals/create-meal-body";
 
 export function mealsRoutes(app: FastifyInstance, opts: any, done: (err?: Error) => void){
@@ -7,7 +7,7 @@ export function mealsRoutes(app: FastifyInstance, opts: any, done: (err?: Error)
         createMealController.handle(request, reply)
     })
     app.get('/', (request: FastifyRequest, reply: FastifyReply ) => {
-        listMealsController.handle(request, reply)
+        getMealsByUserIdController.handle(request, reply)
     })
 
     done()

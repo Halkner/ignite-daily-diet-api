@@ -8,7 +8,7 @@ type CreateMealRequest = {
     description: string;
     datetime: string;
     isDietMeal: boolean;
-    userId: string;
+    sessionId: string;
 };
 
 type CreateMealResponse = {
@@ -22,13 +22,13 @@ export class CreateMeal {
   ) {}
 
   async execute(props: CreateMealRequest): Promise<CreateMealResponse> {
-    const { name, description, datetime, isDietMeal, userId } = props;
+    const { name, description, datetime, isDietMeal, sessionId } = props;
 
-    const user = await this.usersRepository.findById(userId)
+    const user = await this.usersRepository.findBySessionId(sessionId)
 
     if(!user) throw new UserNotFound()
 
-    const meal = new Meal({ name, description, datetime, isDietMeal, userId, user });
+    const meal = new Meal({ name, description, datetime, isDietMeal, userId: user.id, user });
 
     try {
       await this.mealsRepository.create(meal);
