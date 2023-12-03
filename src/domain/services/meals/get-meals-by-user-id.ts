@@ -1,7 +1,7 @@
 import { Meal } from '@domain/models/meal';
 import { MealsRepositoryAbstract } from '@domain/repositories/meals-repository';
 import { UsersRepositoryAbstract } from '@domain/repositories/users-repository';
-import { UserNotFound } from '../users/errors/user-not-found';
+import { UserUnauthorized } from '../users/errors/user-unauthorized';
 
 type GetMealsByUserIdRequest = {
     sessionId: string;
@@ -22,7 +22,7 @@ export class GetMealsByUserId {
 
         const user = await this.usersRepository.findBySessionId(sessionId)
 
-        if (!user) throw new UserNotFound()
+        if (!user) throw new UserUnauthorized()
 
         const userId = user.id
 

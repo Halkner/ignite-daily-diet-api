@@ -29,4 +29,8 @@ export class MealsRepository
 
     return MealMapper.toDomain(meal)
   }
+
+  async deleteById(id: string): Promise<void> {
+    await knex('meals').where('id', id).del()
+  }
 }

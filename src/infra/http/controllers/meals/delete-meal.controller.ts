@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { UserUnauthorized } from "@domain/services/users/errors/user-unauthorized";
-import { GetMealById } from "@domain/services/meals/get-meal-by-id";
+import { DeleteMeal } from "@domain/services/meals/delete-meal";
 import { MealNotFound } from "@domain/services/meals/errors/meal-not-found";
 
-export class GetMealByIdController {
-    constructor(private getMealById: GetMealById){}
+export class DeleteMealController {
+    constructor(private deleteMeal: DeleteMeal){}
 
     async handle(request: FastifyRequest<{Params: {id: string}}>, reply: FastifyReply){
         const { id } = request.params
@@ -13,8 +13,8 @@ export class GetMealByIdController {
         if (!sessionId) return reply.status(401).send({error: 'Unauthorized'})
   
         try {
-          const { meal } = await this.getMealById.execute({id, sessionId})
-          reply.status(200).send(meal);
+        await this.deleteMeal.execute({id, sessionId})
+          reply.status(204).send()
         } catch (error) {
             if (error instanceof UserUnauthorized) {
                 reply.status(401).send({ error: error.message });

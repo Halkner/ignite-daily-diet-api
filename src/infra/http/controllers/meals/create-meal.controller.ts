@@ -1,7 +1,7 @@
 import { CreateMeal } from "@domain/services/meals/create-meal";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { CreateMealBody, createMealBodySchema } from "@http/dtos/meals/create-meal-body";
-import { UserNotFound } from "@domain/services/users/errors/user-not-found";
+import { UserUnauthorized } from "@domain/services/users/errors/user-unauthorized";
 
 export class CreateMealController {
     constructor(private createMeal: CreateMeal){}
@@ -24,8 +24,8 @@ export class CreateMealController {
           const { meal } = await this.createMeal.execute({...body, sessionId})
           reply.status(201).send(meal);
         } catch (error) {
-          if (error instanceof UserNotFound) {
-            reply.status(404).send({ error: error.message });
+          if (error instanceof UserUnauthorized) {
+            reply.status(401).send({ error: error.message });
           } else {
             reply.status(500).send({ error: "Internal Server Error." });
           }

@@ -4,22 +4,20 @@ import { UsersRepositoryAbstract } from '@domain/repositories/users-repository';
 import { MealNotFound } from './errors/meal-not-found';
 import { UserUnauthorized } from '../users/errors/user-unauthorized';
 
-type GetMealByIdRequest = {
+type DeleteMealRequest = {
     id: string;
     sessionId: string;
 }
 
-type GetMealByIdResponse = {
-    meal: Meal;
-};
+type DeleteMealResponse = void
 
-export class GetMealById {
+export class DeleteMeal {
   constructor(
     private mealsRepository: MealsRepositoryAbstract,
     private usersRepository: UsersRepositoryAbstract
   ) {}
 
-    async execute(props: GetMealByIdRequest): Promise<GetMealByIdResponse> {
+    async execute(props: DeleteMealRequest): Promise<DeleteMealResponse> {
         const {id, sessionId} = props
 
         const user = await this.usersRepository.findBySessionId(sessionId)
@@ -32,6 +30,6 @@ export class GetMealById {
 
         if (!meal) throw new MealNotFound()
 
-        return { meal }
+        await this.mealsRepository.deleteById(id)
     }
 }
