@@ -30,6 +30,11 @@ export class MealsRepository
     return MealMapper.toDomain(meal)
   }
 
+  async save(meal: Meal): Promise<void> {
+    const raw = MealMapper.toModel(meal)
+    await knex('meals').update(raw).where('id', meal.id)
+  }
+
   async deleteById(id: string): Promise<void> {
     await knex('meals').where('id', id).del()
   }

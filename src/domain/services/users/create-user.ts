@@ -20,7 +20,7 @@ export class CreateUser {
   constructor(
     private cryptProvider: CryptProvider,
     private usersRepository: UsersRepositoryAbstract,
-  ) {}
+  ) { }
 
   async execute(props: CreateUserRequest): Promise<CreateUserResponse> {
     const { username, password, email, sessionId } = props;

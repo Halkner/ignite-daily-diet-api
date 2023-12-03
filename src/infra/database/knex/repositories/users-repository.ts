@@ -4,9 +4,8 @@ import { knex } from '../../../../../database';
 import { UserMapper } from '../mappers/user-mapper';
 
 export class UsersRepository
-  implements UsersRepositoryAbstract
-{
-  constructor() {}
+  implements UsersRepositoryAbstract {
+  constructor() { }
 
   async create(user: User): Promise<void> {
     const raw = UserMapper.toModel(user)

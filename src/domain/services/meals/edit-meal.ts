@@ -1,26 +1,31 @@
 import { Meal } from '@domain/models/meal';
 import { MealsRepositoryAbstract } from '@domain/repositories/meals-repository';
 import { UsersRepositoryAbstract } from '@domain/repositories/users-repository';
-import { MealNotFound } from './errors/meal-not-found';
 import { UserUnauthorized } from '../users/errors/user-unauthorized';
+import { MealNotFound } from './errors/meal-not-found';
+import { assignIn } from '@domain/helpers/assign-in';
 
-type GetMealByIdRequest = {
+type EditMealRequest = {
   id: string;
+  name?: string;
+  description?: string;
+  datetime?: string;
+  isDietMeal?: boolean;
   sessionId: string;
-}
+};
 
-type GetMealByIdResponse = {
+type EditMealResponse = {
   meal: Meal;
 };
 
-export class GetMealById {
+export class EditMeal {
   constructor(
     private mealsRepository: MealsRepositoryAbstract,
     private usersRepository: UsersRepositoryAbstract
   ) { }
 
-  async execute(props: GetMealByIdRequest): Promise<GetMealByIdResponse> {
-    const { id, sessionId } = props
+  async execute(props: EditMealRequest): Promise<EditMealResponse> {
+    const { id, name, description, datetime, isDietMeal, sessionId } = props;
 
     const user = await this.usersRepository.findBySessionId(sessionId)
 
@@ -32,6 +37,18 @@ export class GetMealById {
 
     if (!meal) throw new MealNotFound()
 
-    return { meal }
+    assignIn(meal, {
+      name,
+      description,
+      datetime,
+      isDietMeal
+    })
+
+    try {
+      await this.mealsRepository.save(meal);
+      return { meal };
+    } catch (error) {
+      throw error;
+    }
   }
 }
