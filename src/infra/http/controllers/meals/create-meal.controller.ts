@@ -8,13 +8,14 @@ export class CreateMealController {
 
     async handle(request: FastifyRequest<{Body: CreateMealBody}>, reply: FastifyReply){
         const {body} = request
+        let { sessionId } = request.cookies
+
         const validatedData = createMealBodySchema.safeParse(request.body)
 
         if(!validatedData.success){
           reply.status(400).send(validatedData.error.issues.map(issue => issue.message))
         }
 
-        let sessionId = request.cookies.sessionId
         if (!sessionId) return reply.status(401).send({error: 'Unauthorized'})
 
         console.log(body)
@@ -24,7 +25,7 @@ export class CreateMealController {
           reply.status(201).send(meal);
         } catch (error) {
           if (error instanceof UserNotFound) {
-            reply.status(400).send({ error: error.message });
+            reply.status(404).send({ error: error.message });
           } else {
             reply.status(500).send({ error: "Internal Server Error." });
           }

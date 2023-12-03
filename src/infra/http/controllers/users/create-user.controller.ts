@@ -3,19 +3,19 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { CreateUserBody, createUserBodySchema } from "../../dtos/users/create-user-body";
 import { randomUUID } from "crypto";
 import { UserNameAlreadyExists } from "@domain/services/users/errors/user-name-already-exists";
+import { UserEmailAlreadyExists } from "@domain/services/users/errors/user-email-already-exists";
 
 export class CreateUserController {
     constructor(private createUser: CreateUser){}
 
     async handle(request: FastifyRequest<{Body: CreateUserBody}>, reply: FastifyReply){
+        let {sessionId} = request.cookies
         const {body} = request
         const validatedData = createUserBodySchema.safeParse(request.body)
 
         if(!validatedData.success){
           reply.status(400).send(validatedData.error.issues.map(issue => issue.message))
         }
-
-        let sessionId = request.cookies.sessionId
 
         if (!sessionId) {
           sessionId = randomUUID()
@@ -30,6 +30,8 @@ export class CreateUserController {
           reply.status(201).send(user);
         } catch (error) {
           if (error instanceof UserNameAlreadyExists) {
+            reply.status(400).send({ error: error.message });
+          } else if (error instanceof UserEmailAlreadyExists) {
             reply.status(400).send({ error: error.message });
           } else {
             reply.status(500).send({ error: "Internal Server Error." });

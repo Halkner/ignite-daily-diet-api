@@ -21,4 +21,12 @@ export class MealsRepository
 
     return meals.map(MealMapper.toDomain)
   }
+  
+  async findById(id: string, userId: string): Promise<Meal | null> {
+    const meal = await knex('meals').first().where('userId', userId).andWhere('id', id)
+
+    if (!meal) return null
+
+    return MealMapper.toDomain(meal)
+  }
 }

@@ -10,7 +10,7 @@ export abstract class Base {
 
     this.base = {
       id: props.id ?? randomUUID(),
-      createdAt: props.createdAt ?? currentDate,
+      createdAt: currentDate,
       updatedAt: currentDate,
     };
   }
